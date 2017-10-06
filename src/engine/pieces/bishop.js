@@ -1,11 +1,10 @@
 import Piece from './piece';
+import Square from "../square";
 
 export default class Bishop extends Piece {
     constructor(player) {
         super(player);
     }
-
-    static diagonals = [['UP', 'LEFT'], ['UP', 'RIGHT'], ['DOWN', 'LEFT'], ['DOWN', 'RIGHT']];
 
     getMovesInDirection(location, verticalDirection, horizontalDirection) {
         const moves = [];
@@ -20,7 +19,8 @@ export default class Bishop extends Piece {
     }
 
     getAvailableMoves(board) {
+        const diagonals = [['UP', 'LEFT'], ['UP', 'RIGHT'], ['DOWN', 'LEFT'], ['DOWN', 'RIGHT']];
         const location = board.findPiece(this);
-        return diagonals.map(diagDir => this.getMovesInDirection(location, Bishop.directions[diagDir[0]], Bishop.directions[diagDir[1]])).flat();
+        return  diagonals.map(diagDir => this.getMovesInDirection(location, Bishop.directions[diagDir[0]], Bishop.directions[diagDir[1]])).flat();
     }
 }

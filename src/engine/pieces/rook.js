@@ -40,8 +40,8 @@ export default class Rook extends Piece {
 
 
   getAvailableMoves(board) {
-    let location = board.findPiece(this);
-    let availableMoves = [];
+    const location = board.findPiece(this);
+    const availableMoves = [];
     for (const dir in Rook.directions) {
       availableMoves = availableMoves.concat(
         this.getMovesInDirection(location, Rook.directions[dir])
