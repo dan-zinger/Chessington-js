@@ -24,13 +24,16 @@ export default class Rook extends Piece {
   //     return moves
   //   }
 
-  getRookMovesVertical(location, direction) {
-    let moves = [];
-    let position = [location.row + direction, location.col];
+  getRookMovesInDir(location, direction) {
+    const moves = [];
 
-    while (position[0] >= 0 && position[0] <= 7) {
+    const position = [location.row, location.col];
+    const positionIndex = direction.isVertical ? 0 : 1;
+    position[positionIndex] += direction.increment;
+
+    while (position[positionIndex] >= 0 && position[positionIndex] <= 7) {
       moves.push(Square.at(...position));
-      position[0] += direction;
+      position[positionIndex] += direction.increment;
     }
     return moves;
   }
@@ -38,7 +41,12 @@ export default class Rook extends Piece {
   getAvailableMoves(board) {
     let location = board.findPiece(this);
     let availableMoves = [];
-    availableMoves += this.getRookMovesVertical(location, directions.UP);
-    availableMoves += this.getRookMovesVertical(location, directions.DOWN);
+    for (const dir in Rook.directions) {
+      availableMoves = availableMoves.concat(
+        this.getRookMovesInDir(location, Rook.directions[dir])
+      );
+    }
+
+    return availableMoves;
   }
 }
