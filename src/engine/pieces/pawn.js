@@ -7,27 +7,32 @@ export default class Pawn extends Piece {
     super(player);
   }
 
+  moveDirection(board, direction) {}
+
   getAvailableMoves(board) {
     let location = board.findPiece(this);
-    if (this.player === Player.WHITE) {
-      if (location.row === 1) {
-        return [
-          Square.at(location.row + 2, location.col),
-          Square.at(location.row + 1, location.col),
-        ];
-      } else {
-        return [Square.at(location.row + 1, location.col)];
-      }
-      // we want to add an if statement to take into account the row of the current position
-    } else {
-      if (location.row === 6) {
-        return [
-          Square.at(location.row - 2, location.col),
-          Square.at(location.row - 1, location.col),
-        ];
-      } else {
-        return [Square.at(location.row - 1, location.col)];
-      }
+    const [direction, startRow] =
+      this.player === Player.WHITE
+        ? [Pawn.directions.UP, 1]
+        : [Pawn.directions.DOWN, 6];
+
+    const square = Square.at(location.row + direction.increment, location.col);
+    if (location.row !== startRow && !this.isOccupiedByOwn(board, square)) {
+      return [square];
     }
+
+    if (location.row === startRow && !this.isOccupiedByOwn(board, square)) {
+      const square2 = Square.at(
+        location.row + 2 * direction.increment,
+        location.col
+      );
+      if (!this.isOccupiedByOwn(board, square2)) {
+        return [square, square2];
+      }
+
+      return [square];
+    }
+
+    return [];
   }
 }
