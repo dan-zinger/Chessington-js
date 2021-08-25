@@ -24,25 +24,28 @@ export default class Rook extends Piece {
   //     return moves
   //   }
 
-  getMovesInDirection(location, direction) {
-    const moves = [];
+  getMovesInDirection(board, direction) {
+    const location = board.findPiece(this);
 
+    const moves = [];
     const position = [location.row, location.col];
     const positionIndex = direction.isVertical ? 0 : 1;
     position[positionIndex] += direction.increment;
-
-    while (Rook.isOnBoard(position)) {
-      moves.push(Square.at(...position));
+    let square = Square.at(...position)
+    
+    while (Rook.isOnBoard(position) && !this.isOccupiedByOwn(board, square)) {
+      moves.push(square);
       position[positionIndex] += direction.increment;
+      square = Square.at(...position)
     }
+    
     return moves;
   }
 
   getAvailableMoves(board) {
-    const location = board.findPiece(this);
     return Object.entries(Rook.directions)
       .map(directionKeyValuePair =>
-        this.getMovesInDirection(location, directionKeyValuePair[1])
+        this.getMovesInDirection(board, directionKeyValuePair[1])
       )
       .flat();
   }
