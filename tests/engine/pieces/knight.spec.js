@@ -13,7 +13,7 @@ describe('Knight', () => {
         const knight = new Knight(Player.WHITE);
         board.setPiece(Square.at(4, 4), knight);
 
-        const moves = bishop.getAvailableMoves(board);
+        const moves = knight.getAvailableMoves(board);
 
         const expectedMoves = [
             // x == 2

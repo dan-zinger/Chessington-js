@@ -3,10 +3,10 @@ import Player from "../player";
 
 // added ispositive property to help with diagonal moves
 const directions = {
-  UP: { increment: 1, isVertical: true, isPositive: true },
-  DOWN: { increment: -1, isVertical: true, isPositive: false },
-  RIGHT: { increment: 1, isVertical: false, isPositive: true },
-  LEFT: { increment: -1, isVertical: false, isPositive: false },
+  UP: { increment: 1, isVertical: true},
+  DOWN: { increment: -1, isVertical: true},
+  RIGHT: { increment: 1, isVertical: false},
+  LEFT: { increment: -1, isVertical: false},
 };
 
 export default class Piece {

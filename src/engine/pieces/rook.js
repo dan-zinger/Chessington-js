@@ -31,7 +31,7 @@ export default class Rook extends Piece {
     const positionIndex = direction.isVertical ? 0 : 1;
     position[positionIndex] += direction.increment;
 
-    while (position[positionIndex] >= 0 && position[positionIndex] <= 7) {
+    while (Rook.isOnBoard(position)) {
       moves.push(Square.at(...position));
       position[positionIndex] += direction.increment;
     }
