@@ -16,21 +16,30 @@ export default class Pawn extends Piece {
   getAvailableMoves(board) {
     let location = board.findPiece(this);
 
-    const square = Square.at(location.row + this.direction.increment, location.col);
-    if (location.row !== this.startRow && !this.isOccupiedByOwn(board, square)) {
-      return [square];
+    const square1 = Square.at(
+      location.row + this.direction.increment,
+      location.col
+    );
+    if (
+      location.row !== this.startRow &&
+      !this.isOccupiedByOwn(board, square1)
+    ) {
+      return [square1];
     }
 
-    if (location.row === this.startRow && !this.isOccupiedByOwn(board, square)) {
+    if (
+      location.row === this.startRow &&
+      !this.isOccupiedByOwn(board, square1)
+    ) {
       const square2 = Square.at(
         location.row + 2 * this.direction.increment,
         location.col
       );
       if (!this.isOccupiedByOwn(board, square2)) {
-        return [square, square2];
+        return [square1, square2];
       }
 
-      return [square];
+      return [square1];
     }
 
     return [];

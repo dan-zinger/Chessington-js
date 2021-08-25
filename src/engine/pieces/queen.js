@@ -6,11 +6,7 @@ export default class Queen extends Piece {
     super(player);
   }
 
-  getMovesInDiagonalDirection(
-    board,
-    verticalDirection,
-    horizontalDirection
-  ) {
+  getMovesInDiagonalDirection(board, verticalDirection, horizontalDirection) {
     const location = board.findPiece(this);
     const moves = [];
     const position = [

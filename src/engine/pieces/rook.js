@@ -31,12 +31,12 @@ export default class Rook extends Piece {
     const position = [location.row, location.col];
     const positionIndex = direction.isVertical ? 0 : 1;
     position[positionIndex] += direction.increment;
-    let square = Square.at(...position)
-    
+    let square = Square.at(...position);
+
     while (Rook.isOnBoard(square) && !this.isOccupiedByOwn(board, square)) {
       moves.push(square);
       position[positionIndex] += direction.increment;
-      square = Square.at(...position)
+      square = Square.at(...position);
     }
 
     return moves;

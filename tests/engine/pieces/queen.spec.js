@@ -50,7 +50,6 @@ describe("Queen", () => {
     moves.should.deep.include.members(expectedMoves);
   });
 
-
   it("cannot move onto or past own piece", () => {
     const queen = new Queen(Player.WHITE);
     board.setPiece(Square.at(1, 2), queen);
@@ -65,7 +64,6 @@ describe("Queen", () => {
 
     moves.should.have.length(14);
   });
-
 
   it("cannot make any other moves", () => {
     const queen = new Queen(Player.WHITE);

@@ -41,7 +41,7 @@ describe("Rook", () => {
     board.setPiece(Square.at(1, 2), rook1);
 
     const rook2 = new Rook(Player.WHITE);
-    board.setPiece(Square.at(3, 2), rook2)
+    board.setPiece(Square.at(3, 2), rook2);
 
     const moves = rook1.getAvailableMoves(board);
 

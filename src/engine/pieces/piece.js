@@ -29,7 +29,7 @@ export default class Piece {
   }
 
   static isOnBoard(square) {
-    return Object.values(square).every(x => x >= 0 && x <= 7)
+    return Object.values(square).every(x => x >= 0 && x <= 7);
   }
 
   isOccupiedByOwn(board, square) {
