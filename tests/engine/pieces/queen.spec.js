@@ -3,6 +3,7 @@ import Queen from "../../../src/engine/pieces/queen";
 import Board from "../../../src/engine/board";
 import Player from "../../../src/engine/player";
 import Square from "../../../src/engine/square";
+import Pawn from "../../../src/engine/pieces/pawn";
 
 describe("Queen", () => {
   let board;
@@ -48,6 +49,23 @@ describe("Queen", () => {
 
     moves.should.deep.include.members(expectedMoves);
   });
+
+
+  it("cannot move onto or past own piece", () => {
+    const queen = new Queen(Player.WHITE);
+    board.setPiece(Square.at(1, 2), queen);
+
+    const pawn1 = new Pawn(Player.WHITE);
+    board.setPiece(Square.at(3, 2), pawn1);
+
+    const pawn2 = new Pawn(Player.WHITE);
+    board.setPiece(Square.at(3, 4), pawn2);
+
+    const moves = queen.getAvailableMoves(board);
+
+    moves.should.have.length(14);
+  });
+
 
   it("cannot make any other moves", () => {
     const queen = new Queen(Player.WHITE);

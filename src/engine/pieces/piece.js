@@ -28,8 +28,8 @@ export default class Piece {
     board.movePiece(currentSquare, newSquare);
   }
 
-  static isOnBoard(coordinates) {
-    return coordinates.every(x => x >= 0) && coordinates.every(x => x <= 7);
+  static isOnBoard(square) {
+    return Object.values(square).every(x => x >= 0 && x <= 7)
   }
 
   isOccupiedByOwn(board, square) {
