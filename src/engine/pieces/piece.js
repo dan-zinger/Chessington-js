@@ -1,10 +1,12 @@
 import Player from "../player";
 
+
+// added ispositive property to help with diagonal moves
 const directions = {
-  UP: { increment: 1, isVertical: true },
-  DOWN: { increment: -1, isVertical: true },
-  RIGHT: { increment: 1, isVertical: false },
-  LEFT: { increment: -1, isVertical: false },
+  UP: { increment: 1, isVertical: true, isPositive: true },
+  DOWN: { increment: -1, isVertical: true, isPositive: false },
+  RIGHT: { increment: 1, isVertical: false, isPositive: true },
+  LEFT: { increment: -1, isVertical: false, isPositive: false },
 };
 
 export default class Piece {
@@ -25,5 +27,9 @@ export default class Piece {
   moveTo(board, newSquare) {
     const currentSquare = board.findPiece(this);
     board.movePiece(currentSquare, newSquare);
+  }
+
+  static isOnBoard(arr) {
+    return arr.every(x => x >= 0) && arr.every(x => x <= 7)
   }
 }

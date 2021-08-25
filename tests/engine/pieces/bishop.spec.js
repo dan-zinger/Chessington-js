@@ -25,7 +25,7 @@ describe('Bishop', () => {
             // Left-Down Diagonal
             Square.at(2, 1), Square.at(1, 0)
         ];
-    
+
         moves.should.deep.include.members(expectedMoves);
     });
 
@@ -34,7 +34,6 @@ describe('Bishop', () => {
         board.setPiece(Square.at(3, 2), bishop);
 
         const moves = bishop.getAvailableMoves(board);
-
         moves.should.have.length(11);
     });
 
