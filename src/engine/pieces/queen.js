@@ -6,14 +6,13 @@ export default class Queen extends Piece {
     super(player);
   }
 
-  getMovesInDiagonalDirection(board, verticalDirection, horizontalDirection) {
+  getMovesInDiagonalDirection(board, directions) {
     const location = board.findPiece(this);
     const moves = [];
 
-    const position = [
-      location.row + verticalDirection.increment,
-      location.col + horizontalDirection.increment,
-    ];
+    let position = Object.entries(location).map(
+      ([, coordinate], index) => coordinate + directions[index].increment
+    );
 
     let square = Square.at(...position);
 
@@ -22,8 +21,9 @@ export default class Queen extends Piece {
       !this.isOccupiedByOwnTeam(board, square)
     ) {
       moves.push(square);
-      position[0] += verticalDirection.increment;
-      position[1] += horizontalDirection.increment;
+      position = position.map(
+        (coordinate, index) => coordinate + directions[index].increment
+      );
       square = Square.at(...position);
     }
     return moves;
@@ -65,11 +65,10 @@ export default class Queen extends Piece {
     return availableMoves.concat(
       diagonals
         .map(([vertical, horizontal]) =>
-          this.getMovesInDiagonalDirection(
-            board,
+          this.getMovesInDiagonalDirection(board, [
             Queen.directions[vertical],
-            Queen.directions[horizontal]
-          )
+            Queen.directions[horizontal],
+          ])
         )
         .flat()
     );
