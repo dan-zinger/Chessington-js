@@ -43,30 +43,6 @@ describe("Pawn", () => {
       moves.should.have.length(1);
     });
 
-    it("cannot move down if position in front occupied by own piece", () => {
-      const pawn = new Pawn(Player.WHITE);
-      board.setPiece(Square.at(1, 1), pawn);
-
-      const pawnOther = new Pawn(Player.WHITE);
-      board.setPiece(Square.at(2, 1), pawnOther);
-
-      const moves = pawn.getAvailableMoves(board);
-
-      moves.should.have.length(0);
-    });
-
-    it("can only move up one position if position two spaces in front is occupied by own", () => {
-      const pawn = new Pawn(Player.BLACK);
-      board.setPiece(Square.at(1, 1), pawn);
-
-      const pawnOther = new Pawn(Player.BLACK);
-      board.setPiece(Square.at(3, 1), pawnOther);
-
-      const moves = pawn.getAvailableMoves(board);
-
-      moves.should.have.length(1);
-    });
-
     it("can move one or two squares up on their first move", () => {
       const pawn = new Pawn(Player.WHITE);
       board.setPiece(Square.at(1, 7), pawn);
@@ -101,6 +77,30 @@ describe("Pawn", () => {
 
       moves.should.have.length(2);
       moves.should.deep.include.members([Square.at(4, 7), Square.at(5, 7)]);
+    });
+
+    it("cannot move down if position in front occupied by own piece", () => {
+      const pawn = new Pawn(Player.BLACK);
+      board.setPiece(Square.at(6, 1), pawn);
+
+      const pawnOther = new Pawn(Player.BLACK);
+      board.setPiece(Square.at(5, 1), pawnOther);
+
+      const moves = pawn.getAvailableMoves(board);
+
+      moves.should.have.length(0);
+    });
+
+    it("can only move down one position if position two spaces in front is occupied by own", () => {
+      const pawn = new Pawn(Player.BLACK);
+      board.setPiece(Square.at(1, 1), pawn);
+
+      const pawnOther = new Pawn(Player.BLACK);
+      board.setPiece(Square.at(3, 1), pawnOther);
+
+      const moves = pawn.getAvailableMoves(board);
+
+      moves.should.have.length(1);
     });
   });
 });

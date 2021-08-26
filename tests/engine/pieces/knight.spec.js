@@ -3,6 +3,7 @@ import Knight from '../../../src/engine/pieces/knight';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
+import Pawn from "../../../src/engine/square";
 
 describe('Knight', () => {
 
@@ -35,6 +36,27 @@ describe('Knight', () => {
 
         const moves = knight.getAvailableMoves(board);
         moves.should.have.length(8);
+    });
+
+    it('cannot move onto square occupied by own piece', () => {
+        const knight = new Knight(Player.WHITE);
+        board.setPiece(Square.at(4, 4), knight);
+
+        const pawn1 = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(2, 5), pawn1);
+
+        const pawn2 = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(3, 6), pawn2);
+
+        const pawn3 = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(5, 6), pawn3);
+
+        const pawn4 = new Pawn(Player.WHITE);
+        board.setPiece(Square.at(6, 5), pawn4);
+
+        const moves = knight.getAvailableMoves(board);
+
+        moves.should.have.length(4);
     });
 
 });
