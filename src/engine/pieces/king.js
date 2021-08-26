@@ -14,6 +14,13 @@ export default class King extends Piece {
 
     const square = Square.at(...position);
 
+    const piece = board.getPiece(square)
+
+    console.log('\n________')
+    console.log(piece)
+    console.log(this.isOccupiedByOwnTeam(board, square))
+    console.log((typeof piece !== 'undefined') && piece.player === this.player)
+
     return King.isOnBoard(square) && !this.isOccupiedByOwnTeam(board, square)
       ? square
       : false;
@@ -41,20 +48,20 @@ export default class King extends Piece {
       ["DOWN", "RIGHT"],
     ];
 
-    const availableMoves = Object.entries(King.directions).map(
+    const availableMovesVertical = Object.entries(King.directions).map(
       ([, direction]) =>
         this.getMovesInAxisDirection(board, location, direction)
     );
 
-    return availableMoves
-      .concat(
-        diagonals.map(([vertical, horizontal]) =>
-          this.getMovesInDiagonalDirection(board, location, [
-            King.directions[vertical],
-            King.directions[horizontal],
-          ])
-        )
-      )
+    const availableMovesHorizontal = diagonals.map(([vertical, horizontal]) =>
+      this.getMovesInDiagonalDirection(board, location, [
+        King.directions[vertical],
+        King.directions[horizontal],
+      ])
+    );
+
+    return availableMovesVertical
+      .concat(availableMovesHorizontal)
       .filter(x => x);
   }
 }

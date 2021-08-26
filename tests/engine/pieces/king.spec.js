@@ -29,7 +29,7 @@ describe("King", () => {
         const moves = king.getAvailableMoves(board);
         moves.should.have.length(8);
     });
-    // incomplete
+    
     it("cannot move onto square occupied by own piece", () => {
         const king = new King(Player.WHITE);
         board.setPiece(Square.at(3, 2), king);
@@ -41,6 +41,8 @@ describe("King", () => {
         board.setPiece(Square.at(4, 3), pawn2);
 
         const moves = king.getAvailableMoves(board);
+
+        const expectedMoves = [Square.at(4, 2), Square.at(4, 1), Square.at(3, 1), Square.at(2, 1), Square.at(2, 2), Square.at(2, 3)]
 
         moves.should.deep.include.members(expectedMoves);
         moves.should.have.length(6);

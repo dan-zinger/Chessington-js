@@ -12,7 +12,6 @@ export default class Queen extends Piece {
     );
 
     let square = Square.at(...position);
-
     const moves = [];
     while (
       Queen.isOnBoard(square) &&

@@ -33,6 +33,6 @@ export default class Piece {
 
   isOccupiedByOwnTeam(board, square) {
     const piece = board.getPiece(square);
-    return piece && piece.player === this.player;
+    return (typeof piece !== 'undefined') && piece.player === this.player;
   }
 }
