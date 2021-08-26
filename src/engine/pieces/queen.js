@@ -6,16 +6,14 @@ export default class Queen extends Piece {
     super(player);
   }
 
-  getMovesInDiagonalDirection(board, directions) {
-    const location = board.findPiece(this);
-    const moves = [];
-
+  getMovesInDiagonalDirection(board, location, directions) {
     let position = Object.entries(location).map(
       ([, coordinate], index) => coordinate + directions[index].increment
     );
 
     let square = Square.at(...position);
 
+    const moves = [];
     while (
       Queen.isOnBoard(square) &&
       !this.isOccupiedByOwnTeam(board, square)
@@ -29,16 +27,14 @@ export default class Queen extends Piece {
     return moves;
   }
 
-  getMovesInAxisDirection(board, direction) {
-    const location = board.findPiece(this);
-    const moves = [];
-
-    const position = [location.row, location.col];
+  getMovesInAxisDirection(board, location, direction) {
+    const position = Object.entries(location).map(([, value]) => value);
     const positionIndex = direction.isVertical ? 0 : 1;
     position[positionIndex] += direction.increment;
 
     let square = Square.at(...position);
 
+    const moves = [];
     while (
       Queen.isOnBoard(square) &&
       !this.isOccupiedByOwnTeam(board, square)
@@ -51,6 +47,8 @@ export default class Queen extends Piece {
   }
 
   getAvailableMoves(board) {
+    const location = board.findPiece(this);
+
     const diagonals = [
       ["UP", "LEFT"],
       ["UP", "RIGHT"],
@@ -59,13 +57,15 @@ export default class Queen extends Piece {
     ];
 
     const availableMoves = Object.entries(Queen.directions)
-      .map(([, value]) => this.getMovesInAxisDirection(board, value))
+      .map(([, direction]) =>
+        this.getMovesInAxisDirection(board, location, direction)
+      )
       .flat();
 
     return availableMoves.concat(
       diagonals
         .map(([vertical, horizontal]) =>
-          this.getMovesInDiagonalDirection(board, [
+          this.getMovesInDiagonalDirection(board, location, [
             Queen.directions[vertical],
             Queen.directions[horizontal],
           ])

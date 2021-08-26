@@ -6,16 +6,14 @@ export default class Bishop extends Piece {
     super(player);
   }
 
-  getMovesInDirection(board, directions) {
-    const location = board.findPiece(this);
-    const moves = [];
-
+  getMovesInDirection(board, location, directions) {
     let position = Object.entries(location).map(
       ([, coordinate], index) => coordinate + directions[index].increment
     );
 
     let square = Square.at(...position);
 
+    const moves = [];
     while (
       Bishop.isOnBoard(square) &&
       !this.isOccupiedByOwnTeam(board, square)
@@ -31,6 +29,8 @@ export default class Bishop extends Piece {
   }
 
   getAvailableMoves(board) {
+    const location = board.findPiece(this);
+
     const diagonals = [
       ["UP", "LEFT"],
       ["UP", "RIGHT"],
@@ -40,7 +40,7 @@ export default class Bishop extends Piece {
 
     return diagonals
       .map(([verticalDir, horizontalDir]) =>
-        this.getMovesInDirection(board, [
+        this.getMovesInDirection(board, location, [
           Bishop.directions[verticalDir],
           Bishop.directions[horizontalDir],
         ])

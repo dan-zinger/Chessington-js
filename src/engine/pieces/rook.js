@@ -7,16 +7,14 @@ export default class Rook extends Piece {
     super(player);
   }
 
-  getMovesInDirection(board, direction) {
-    const location = board.findPiece(this);
-    const moves = [];
-
-    const position = [location.row, location.col];
+  getMovesInDirection(board, location, direction) {
+    const position = Object.entries(location).map(([, value]) => value);
     const positionIndex = direction.isVertical ? 0 : 1;
     position[positionIndex] += direction.increment;
 
     let square = Square.at(...position);
 
+    const moves = [];
     while (Rook.isOnBoard(square) && !this.isOccupiedByOwnTeam(board, square)) {
       moves.push(square);
       position[positionIndex] += direction.increment;
@@ -27,9 +25,11 @@ export default class Rook extends Piece {
   }
 
   getAvailableMoves(board) {
+    const location = board.findPiece(this);
+
     return Object.entries(Rook.directions)
       .map(([, directionValue]) =>
-        this.getMovesInDirection(board, directionValue)
+        this.getMovesInDirection(board, location, directionValue)
       )
       .flat();
   }

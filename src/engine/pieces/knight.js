@@ -7,9 +7,7 @@ export default class Knight extends Piece {
     super(player);
   }
 
-  getMovesInQuadrant(board, verticalDirection, horizontalDirection) {
-    const location = board.findPiece(this);
-
+  getMovesInQuadrant(board, location, verticalDirection, horizontalDirection) {
     const move1 = Square.at(
       location.row + 2 * verticalDirection.increment,
       location.col + horizontalDirection.increment
@@ -26,6 +24,8 @@ export default class Knight extends Piece {
   }
 
   getAvailableMoves(board) {
+    const location = board.findPiece(this);
+
     const directionPairs = [
       ["UP", "LEFT"],
       ["UP", "RIGHT"],
@@ -37,6 +37,7 @@ export default class Knight extends Piece {
       .map(([vertical, horizontal]) =>
         this.getMovesInQuadrant(
           board,
+          location,
           Knight.directions[vertical],
           Knight.directions[horizontal]
         )
