@@ -3,7 +3,7 @@ import King from '../../../src/engine/pieces/king';
 import Board from '../../../src/engine/board';
 import Player from '../../../src/engine/player';
 import Square from '../../../src/engine/square';
-import Pawn from "../../../src/engine/square";
+import Pawn from "../../../src/engine/pieces/pawn";
 
 
 

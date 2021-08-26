@@ -14,13 +14,6 @@ export default class King extends Piece {
 
     const square = Square.at(...position);
 
-    const piece = board.getPiece(square)
-
-    console.log('\n________')
-    console.log(piece)
-    console.log(this.isOccupiedByOwnTeam(board, square))
-    console.log((typeof piece !== 'undefined') && piece.player === this.player)
-
     return King.isOnBoard(square) && !this.isOccupiedByOwnTeam(board, square)
       ? square
       : false;
