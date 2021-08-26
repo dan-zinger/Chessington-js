@@ -7,27 +7,33 @@ export default class King extends Piece {
     super(player);
   }
 
-  getMovesInDiagonalDirection(
-    location,
-    verticalDirection,
-    horizontalDirection
-  ) {
-    const position = [
-      location.row + verticalDirection.increment,
-      location.col + horizontalDirection.increment,
-    ];
-    return King.isOnBoard(position) ? Square.at(...position) : false;
+  getMovesInDiagonalDirection(board, location, directions) {
+    const position = Object.entries(location).map(
+      ([, coordinate], index) => coordinate + directions[index].increment
+    );
+
+    const square = Square.at(...position);
+
+    return King.isOnBoard(square) && !this.isOccupiedByOwnTeam(board, square)
+      ? square
+      : false;
   }
 
-  getMovesInAxisDirection(location, direction) {
+  getMovesInAxisDirection(board, location, direction) {
     const position = direction.isVertical
       ? [location.row + direction.increment, location.col]
       : [location.row, location.col + direction.increment];
-    return King.isOnBoard(position) ? Square.at(...position) : false;
+
+    const square = Square.at(...position);
+
+    return King.isOnBoard(square) && !this.isOccupiedByOwnTeam(board, square)
+      ? square
+      : false;
   }
 
   getAvailableMoves(board) {
     const location = board.findPiece(this);
+
     const diagonals = [
       ["UP", "LEFT"],
       ["UP", "RIGHT"],
@@ -36,18 +42,17 @@ export default class King extends Piece {
     ];
 
     const availableMoves = Object.entries(King.directions).map(
-      directionKeyValuePair =>
-        this.getMovesInAxisDirection(location, directionKeyValuePair[1])
+      ([, direction]) =>
+        this.getMovesInAxisDirection(board, location, direction)
     );
 
     return availableMoves
       .concat(
-        diagonals.map(diagDir =>
-          this.getMovesInDiagonalDirection(
-            location,
-            King.directions[diagDir[0]],
-            King.directions[diagDir[1]]
-          )
+        diagonals.map(([vertical, horizontal]) =>
+          this.getMovesInDiagonalDirection(board, location, [
+            King.directions[vertical],
+            King.directions[horizontal],
+          ])
         )
       )
       .filter(x => x);

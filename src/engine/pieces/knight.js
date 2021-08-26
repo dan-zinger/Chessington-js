@@ -7,19 +7,22 @@ export default class Knight extends Piece {
     super(player);
   }
 
-  getMovesInQuadrant(location, verticalDirection, horizontalDirection) {
-    const move1 = [
-      location.row + 2 * verticalDirection.increment,
-      location.col + horizontalDirection.increment,
-    ];
-    const move2 = [
-      location.row + verticalDirection.increment,
-      location.col + 2 * horizontalDirection.increment,
-    ];
+  getMovesInQuadrant(board, verticalDirection, horizontalDirection) {
+    const location = board.findPiece(this);
 
-    return [move1, move2]
-      .filter(Knight.isOnBoard)
-      .map(coordinates => Square.at(...coordinates));
+    const move1 = Square.at(
+      location.row + 2 * verticalDirection.increment,
+      location.col + horizontalDirection.increment
+    );
+    const move2 = Square.at(
+      location.row + verticalDirection.increment,
+      location.col + 2 * horizontalDirection.increment
+    );
+
+    return [move1, move2].filter(
+      square =>
+        Knight.isOnBoard(square) && !this.isOccupiedByOwnTeam(board, square)
+    );
   }
 
   getAvailableMoves(board) {
@@ -29,13 +32,13 @@ export default class Knight extends Piece {
       ["DOWN", "LEFT"],
       ["DOWN", "RIGHT"],
     ];
-    const location = board.findPiece(this);
+
     return directionPairs
-      .map(quadrant =>
+      .map(([vertical, horizontal]) =>
         this.getMovesInQuadrant(
-          location,
-          Knight.directions[quadrant[0]],
-          Knight.directions[quadrant[1]]
+          board,
+          Knight.directions[vertical],
+          Knight.directions[horizontal]
         )
       )
       .flat();
