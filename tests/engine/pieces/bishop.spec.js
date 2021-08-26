@@ -3,6 +3,7 @@ import "chai/register-should";
 import Board from "../../../src/engine/board";
 import Player from "../../../src/engine/player";
 import Square from "../../../src/engine/square";
+import Pawn from "../../../src/engine/square";
 
 describe("Bishop", () => {
   let board;
@@ -41,5 +42,19 @@ describe("Bishop", () => {
 
     const moves = bishop.getAvailableMoves(board);
     moves.should.have.length(11);
+  });
+
+  it("cannot move onto or past square occupied by own piece", () => {
+    const bishop = new Bishop(Player.WHITE);
+    board.setPiece(Square.at(3, 2), bishop);
+    
+    const pawn1 = new Pawn(Player.WHITE);
+    board.setPiece(Square.at(5,4), pawn1);
+
+    const pawn2 = new Pawn(Player.WHITE);
+    board.setPiece(Square.at(1,4), pawn2);
+
+    const moves = bishop.getAvailableMoves(board);
+    moves.should.have.length(6);
   });
 });
