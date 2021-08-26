@@ -11,8 +11,6 @@ export default class Pawn extends Piece {
         : [Pawn.directions.DOWN, 6];
   }
 
-  moveDirection(board, direction) {}
-
   getAvailableMoves(board) {
     let location = board.findPiece(this);
 
@@ -20,28 +18,22 @@ export default class Pawn extends Piece {
       location.row + this.direction.increment,
       location.col
     );
-    if (
-      location.row !== this.startRow &&
-      !this.isOccupiedByOwn(board, square1)
-    ) {
+
+    if (this.isOccupiedByOwnTeam(board, square1)) {
+      return [];
+    }
+
+    if (location.row !== this.startRow) {
       return [square1];
     }
 
-    if (
-      location.row === this.startRow &&
-      !this.isOccupiedByOwn(board, square1)
-    ) {
-      const square2 = Square.at(
-        location.row + 2 * this.direction.increment,
-        location.col
-      );
-      if (!this.isOccupiedByOwn(board, square2)) {
-        return [square1, square2];
-      }
+    const square2 = Square.at(
+      location.row + 2 * this.direction.increment,
+      location.col
+    );
 
-      return [square1];
-    }
-
-    return [];
+    return this.isOccupiedByOwnTeam(board, square2)
+      ? [square1]
+      : [square1, square2];
   }
 }

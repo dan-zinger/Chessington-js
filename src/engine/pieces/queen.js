@@ -9,13 +9,18 @@ export default class Queen extends Piece {
   getMovesInDiagonalDirection(board, verticalDirection, horizontalDirection) {
     const location = board.findPiece(this);
     const moves = [];
+
     const position = [
       location.row + verticalDirection.increment,
       location.col + horizontalDirection.increment,
     ];
+
     let square = Square.at(...position);
 
-    while (Queen.isOnBoard(square) && !this.isOccupiedByOwn(board, square)) {
+    while (
+      Queen.isOnBoard(square) &&
+      !this.isOccupiedByOwnTeam(board, square)
+    ) {
       moves.push(square);
       position[0] += verticalDirection.increment;
       position[1] += horizontalDirection.increment;
@@ -33,7 +38,11 @@ export default class Queen extends Piece {
     position[positionIndex] += direction.increment;
 
     let square = Square.at(...position);
-    while (Queen.isOnBoard(square) && !this.isOccupiedByOwn(board, square)) {
+
+    while (
+      Queen.isOnBoard(square) &&
+      !this.isOccupiedByOwnTeam(board, square)
+    ) {
       moves.push(square);
       position[positionIndex] += direction.increment;
       square = Square.at(...position);
@@ -50,18 +59,16 @@ export default class Queen extends Piece {
     ];
 
     const availableMoves = Object.entries(Queen.directions)
-      .map(directionKeyValuePair =>
-        this.getMovesInAxisDirection(board, directionKeyValuePair[1])
-      )
+      .map(([, value]) => this.getMovesInAxisDirection(board, value))
       .flat();
 
     return availableMoves.concat(
       diagonals
-        .map(diagDir =>
+        .map(([vertical, horizontal]) =>
           this.getMovesInDiagonalDirection(
             board,
-            Queen.directions[diagDir[0]],
-            Queen.directions[diagDir[1]]
+            Queen.directions[vertical],
+            Queen.directions[horizontal]
           )
         )
         .flat()

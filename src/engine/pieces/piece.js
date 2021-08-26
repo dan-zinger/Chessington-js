@@ -1,6 +1,5 @@
 import Player from "../player";
 
-// added ispositive property to help with diagonal moves
 const directions = {
   UP: { increment: 1, isVertical: true },
   DOWN: { increment: -1, isVertical: true },
@@ -32,7 +31,7 @@ export default class Piece {
     return Object.values(square).every(x => x >= 0 && x <= 7);
   }
 
-  isOccupiedByOwn(board, square) {
+  isOccupiedByOwnTeam(board, square) {
     const piece = board.getPiece(square);
     return piece && piece.player === this.player;
   }
